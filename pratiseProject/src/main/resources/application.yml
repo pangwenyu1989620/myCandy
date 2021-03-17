@@ -2,11 +2,21 @@ server:
   port: 8083
   host: 127.0.0.1
   spring:
-    datasource:
-        url: jdbc:mysql://localhost:3306/iap?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
-        username: root
-        password: 123456
-        driver-class-name: com.mysql.cj.jdbc.Driver
-  mybatis-plus:
-    typeAliasesPackage: com.example.demo.entity
-  　mapper-locations: classpath:mapper/*Mapper.xml
+#    datasource:
+#        url: jdbc:mysql://localhost:3306/iap?characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false
+#        username: root
+#        password: 123456
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+    mybatis-plus:
+      typeAliasesPackage: com.example.demo.entity
+    　mapper-locations: classpath:mapper/*Mapper.xml
+
+#    redis:
+#      host: 127.0.0.1
+#      port: 6379
+#      password: itl123
+#      pool:
+#        max-active: 100
+#        max-idle: 10
+#        max-wait: 100000
+#      timeout: 300
