@@ -9,11 +9,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -38,7 +40,7 @@ public class testController {
     }
 
     @GetMapping(value="/setRedisAdminInfo")
-    @ApiOperation(value="存放admin账号信息")
+    @ApiOperation(value="测试redis存放admin账号信息")
     public String setRedisAdminInfo(@RequestParam(value = "admin") String admin,@RequestParam(value = "adminPassword") String adminPassword){
         try {
             redisUtil.set("admin", admin, 0);
@@ -50,7 +52,7 @@ public class testController {
     }
 
     @GetMapping(value="/getRedisAdminInfo")
-    @ApiOperation(value="获取admin账号信息")
+    @ApiOperation(value="测试redis获取admin账号信息")
     public Map<String,Object> getRedisAdminInfo(){
         String admin = redisUtil.get("admin").toString();
         String adminPasswork = redisUtil.get("adminPassword").toString();
@@ -58,6 +60,30 @@ public class testController {
         adminInfo.put("admin",admin);
         adminInfo.put("adminPassword",adminPasswork);
         return adminInfo;
+    }
+
+    @RequestMapping(path = "/login-shiro", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation(value="shrio测试用户登录")
+    public String loginShiro(String username,String password) {
+        Subject subject = SecurityUtils.getSubject();//获取连接
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);//身份验证
+        try {
+            subject.login(token);//正确  --realm
+        }catch(Exception e){
+            System.out.println("登陆异常："+e.getMessage());
+            return "登陆异常："+e.getMessage();
+        }
+        return "登陆成功！+token:"+token;
+    }
+
+
+    //@RequiresPermissions("管理员:操作")
+    @RequiresRoles("管理员")
+    @GetMapping(value="/getShiroPermissionTest")
+    @ApiOperation(value="测试shiro权限管控")
+    public String getShiroPermissionTest(){
+
+        return "您好，您已成功获取shrio管理的服务访问权限！";
     }
 
 }
