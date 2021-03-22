@@ -36,6 +36,7 @@ public class ShrioConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();/*权限配置*/
 //        filterChainDefinitionMap.put("/user/adduser", "perms[ClinetUser:name]");/*配置不会被拦截的链接 顺序判断 相关静态资源*/
           filterChainDefinitionMap.put("/test/login-shiro", "anon");
+          filterChainDefinitionMap.put("/test/loginAndGetJWT", "anon");
           filterChainDefinitionMap.put("/swagger-ui.html", "anon");
 //        filterChainDefinitionMap.put("/assets/**", "anon");
 //        filterChainDefinitionMap.put("/css/**", "anon");
