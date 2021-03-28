@@ -1,0 +1,10 @@
+--一个用户有多个角色，查询其他包含该用户所有角色的用户
+select * from (select a.username,group_concat(a.rolename separator '-') as roles from userRecord a where a.username<>'pwy' group by a.username order by a.rolename )aa where aa.roles
+like CONCAT('%',(select group_concat(b.rolename separator '-') as roles from userRecord b where b.username='pwy' group by b.username order by b.rolename),'%')
+
+
+--多字段重复去重
+delete from testRepeatRecords where id in
+(select id from (select b.id from testRepeatRecords b where (b.username,b.job) in(select a.username,a.job from testRepeatRecords a group by a.username,a.job having count(a.username)>1))aa)
+and id not in
+(select id from (select min(c.id) as id from testRepeatRecords c where (c.username,c.job) in (select d.username,d.job from testRepeatRecords d group by d.username,d.job having count(d.username)>1) group by c.username,c.job)bb)

@@ -1,0 +1,24 @@
+启动：
+net start mysql
+关闭：
+net stop mysql
+
+登陆服务端：
+1.目录切换到D:\mysql\mysql-x.x.xx-winx64\bin
+2.mysql -uroot -p密码
+
+设置密码：
+mysqladmin -u root -p password 密码
+
+服务端导出表结构和数据：
+mysqldump -uroot -pmysql databasefoo table1 table2 > foo.sql
+mysqldump -uroot -pmysql databasefoo > foo.sql
+
+导入表结构和数据：
+mysql -uroot databasefoo < foo.sql
+或
+mysql>use 数据库
+mysql>source d:wcnc_db.sql
+
+
+

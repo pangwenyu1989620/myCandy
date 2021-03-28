@@ -1,0 +1,13 @@
+测试服
+ip: 8.129.102.185
+
+账号/密码：root/1AxVpaNL
+
+linux部署：
+/usr/local/itl/service   切换部署包所在路径
+
+nohup java -jar  -Xms512m -Xmx1024m mes-md-provider-1.0.jar > logs/mes-md-provider/debug.log &  启动包
+
+ps -ef | grep java  查看java相关运行程序
+
+kill -9 26882  杀进程
